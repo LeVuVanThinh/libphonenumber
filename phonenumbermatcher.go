@@ -1,6 +1,7 @@
 package libphonenumber
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 	"unicode"
@@ -15,7 +16,7 @@ type PhoneNumberMatcher struct {
 func ScanRegionCode(phoneNumber string) (isMatched bool, phoneNumberWithCodeCountryFormat string) {
 	phoneNumberFilter := strings.Replace(phoneNumber, "+", "", -1)
 	phoneNumberFilter = strings.Replace(phoneNumber, "0", "", -1)
-	beego.Info(phoneNumberFilter)
+	fmt.Println(phoneNumberFilter)
 
 	for _, region := range AllRegion {
 		num, err := Parse(phoneNumberFilter, region)
