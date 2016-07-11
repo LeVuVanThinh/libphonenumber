@@ -12,7 +12,7 @@ import (
 type PhoneNumberMatcher struct {
 }
 
-func (pnm *PhoneNumberMatcher) ScanRegionCode(phoneNumber string) (isMatched bool, phoneNumberWithCodeCountryFormat string) {
+func ScanRegionCode(phoneNumber string) (isMatched bool, phoneNumberWithCodeCountryFormat string) {
 	for _, region := range AllRegion {
 		num, err := Parse(phoneNumber, region)
 		if err != nil {
