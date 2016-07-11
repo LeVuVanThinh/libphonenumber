@@ -13,15 +13,18 @@ type PhoneNumberMatcher struct {
 }
 
 func ScanRegionCode(phoneNumber string) (isMatched bool, phoneNumberWithCodeCountryFormat string) {
+	phoneNumberFilter := strings.Replace(phoneNumber, "+", "", -1)
+	beego.Info(phoneNumberFilter)
+
 	for _, region := range AllRegion {
-		num, err := Parse(phoneNumber, region)
+		num, err := Parse(phoneNumberFilter, region)
 		if err != nil {
 			beego.Error(err)
 			return
 		}
 		strMetaCountryCode := strconv.Itoa(int(*num.CountryCode))
 		lenMetaCountryCode := len(strMetaCountryCode)
-		strSplit := strings.SplitAfterN(phoneNumber, "", lenMetaCountryCode+1)
+		strSplit := strings.SplitAfterN(phoneNumberFilter, "", lenMetaCountryCode+1)
 		slCountryCodePhoneNumber := strSplit[:lenMetaCountryCode]
 
 		var countryCodeFromPhoneNumber string
