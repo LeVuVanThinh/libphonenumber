@@ -17,6 +17,7 @@ func ScanRegionCode(phoneNumber string) (isMatched bool, phoneNumberWithCodeCoun
 		num, err := Parse(phoneNumber, region)
 		if err != nil {
 			beego.Error(err)
+			return
 		}
 		strMetaCountryCode := strconv.Itoa(int(*num.CountryCode))
 		lenMetaCountryCode := len(strMetaCountryCode)
