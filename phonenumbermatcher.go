@@ -5,10 +5,35 @@ import (
 	"strings"
 	"unicode"
 
+	"github.com/astaxie/beego"
 	"github.com/ttacon/builder"
 )
 
 type PhoneNumberMatcher struct {
+}
+
+func (pnm *PhoneNumberMatcher) ScanRegionCode(phoneNumber string) (isMatched bool, phoneNumberWithCodeCountryFormat string) {
+	for _, region := range AllRegion {
+		num, err := Parse(phoneNumber, region)
+		if err != nil {
+			beego.Error(err)
+		}
+		strMetaCountryCode := strconv.Itoa(int(*num.CountryCode))
+		lenMetaCountryCode := len(strMetaCountryCode)
+		strSplit := strings.SplitAfterN(phoneNumber, "", lenMetaCountryCode+1)
+		slCountryCodePhoneNumber := strSplit[:lenMetaCountryCode]
+		var countryCodeFromPhoneNumber string
+		countryCodeFromPhoneNumber = strings.Join(slCountryCodePhoneNumber, "")
+
+		var phoneNumberFormatted string
+		result := strings.Compare(countryCodeFromPhoneNumber, strMetaCountryCode)
+		if result == 0 {
+			phoneNumberFormatted = "+" + strMetaCountryCode + strSplit[lenMetaCountryCode+1]
+			return true, phoneNumberFormatted
+		}
+	}
+
+	return false, ""
 }
 
 func NewPhoneNumberMatcher(seq string) *PhoneNumberMatcher {
