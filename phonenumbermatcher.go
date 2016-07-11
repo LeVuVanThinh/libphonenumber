@@ -14,6 +14,7 @@ type PhoneNumberMatcher struct {
 
 func ScanRegionCode(phoneNumber string) (isMatched bool, phoneNumberWithCodeCountryFormat string) {
 	phoneNumberFilter := strings.Replace(phoneNumber, "+", "", -1)
+	phoneNumberFilter = strings.Replace(phoneNumber, "0", "", -1)
 	beego.Info(phoneNumberFilter)
 
 	for _, region := range AllRegion {
