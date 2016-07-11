@@ -22,15 +22,14 @@ func ScanRegionCode(phoneNumber string) (isMatched bool, phoneNumberWithCodeCoun
 		lenMetaCountryCode := len(strMetaCountryCode)
 		strSplit := strings.SplitAfterN(phoneNumber, "", lenMetaCountryCode+1)
 		slCountryCodePhoneNumber := strSplit[:lenMetaCountryCode]
-		// beego.Info(strSplit[lenMetaCountryCode+1])
-		beego.Info(strSplit[lenMetaCountryCode])
+
 		var countryCodeFromPhoneNumber string
 		countryCodeFromPhoneNumber = strings.Join(slCountryCodePhoneNumber, "")
 
 		var phoneNumberFormatted string
 		result := strings.Compare(countryCodeFromPhoneNumber, strMetaCountryCode)
 		if result == 0 {
-			phoneNumberFormatted = "+" + strMetaCountryCode + strSplit[lenMetaCountryCode]
+			phoneNumberFormatted = "+" + strMetaCountryCode + " " + strSplit[lenMetaCountryCode]
 			return true, phoneNumberFormatted
 		}
 	}
